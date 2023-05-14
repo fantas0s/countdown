@@ -9,7 +9,7 @@ find_package(Qt6 6.5 REQUIRED COMPONENTS Quick Widgets)
 qt_standard_project_setup(REQUIRES 6.5)
 
 qt_add_executable(appcountdown
-    main.cpp
+    main.cpp applogic.h applogic.cpp
 )
 
 qt_add_qml_module(appcountdown

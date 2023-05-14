@@ -86,7 +86,7 @@ Item {
             Tumbler {
                 model: 24
                 delegate: delegateComponent
-                onCurrenIndexChanged: _appLogic.targetHour = currentIndex + 1
+                onCurrenIndexChanged: _appLogic.targetHour = currentIndex
             }
             Tumbler {
                 model: 60
@@ -96,11 +96,11 @@ Item {
             Rectangle {
                 width: height
                 height: _infoField.implicitHeight
-                color: _appLogic.timeColor
+                color: _appLogic.timerColor
             }
             Button {
                 text: qsTr("Change color")
-                onClicked: _timeColorPicker.open()
+                onClicked: _timerColorPicker.open()
             }
         }
     }

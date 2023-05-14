@@ -30,7 +30,7 @@ Item {
             anchors.centerIn: parent
             font.pixelsize: parent.height / 5
             color: _appLogic.timerColor
-            text: _appLogic.timerValue
+            text: _appLogic.timerText
         }
         Button {
             id: _closeButton
