@@ -19,14 +19,14 @@ Item {
                 Layout.fillWidth: true
             }
             Button {
-                text: _appLogic.defaultBackgroundImage ? qsTr("select") : qsTr("restore default")
+                text: _appLogic.defaultBackgroundImage ? qsTr("Select") : qsTr("Restore default")
                 onClicked: _imagePicker.open()
             }
         }
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: qsTr("title text")
+                text: qsTr("Title text")
             }
             TextField {
                 id: _titleField
@@ -46,7 +46,7 @@ Item {
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: qsTr("info text")
+                text: qsTr("Info text")
             }
             TextField {
                 id: _infoField
@@ -66,7 +66,7 @@ Item {
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: qsTr("info text after timeout")
+                text: qsTr("Info text after timeout")
             }
             TextField {
                 Layout.fillWidth: true
@@ -76,7 +76,7 @@ Item {
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: qsTr("timer end time")
+                text: qsTr("Timer end time")
             }
             TextField {
                 Layout.fillWidth: true
@@ -84,14 +84,16 @@ Item {
                 enabled: false
             }
             Tumbler {
+                implicitHeight: 100
                 model: 24
                 delegate: delegateComponent
-                onCurrenIndexChanged: _appLogic.targetHour = currentIndex
+                onCurrentIndexChanged: _appLogic.targetHour = currentIndex
             }
             Tumbler {
+                implicitHeight: 100
                 model: 60
                 delegate: delegateComponent
-                onCurrenIndexChanged: _appLogic.targetMinute = currentIndex
+                onCurrentIndexChanged: _appLogic.targetMinute = currentIndex
             }
             Rectangle {
                 width: height
@@ -107,11 +109,10 @@ Item {
     Component {
         id: delegateComponent
         Label {
-            text: Tumbler.tumbler.count === 24 ? modelData + 1 : modelData
+            text: modelData
             opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
-            font.pixelSize: fontMetrics.font.pixelSize * 1.25
         }
     }
 }

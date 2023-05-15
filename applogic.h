@@ -18,13 +18,13 @@ class AppLogic : public QObject
     Q_PROPERTY(QColor timerColor MEMBER m_timerColor NOTIFY timerColorChanged)
 
     /* setter-enabled values */
-    Q_PROPERTY(QString backgroundImageFileName READ backgroundImageFileName WRITE setBackgroundImageFileName NOTIFY backgroundImageChanged)
+    Q_PROPERTY(QString backgroundImage READ backgroundImage WRITE setBackgroundImage NOTIFY backgroundImageChanged)
     Q_PROPERTY(int targetHour READ targetHour WRITE setTargetHour NOTIFY timeoutChanged)
     Q_PROPERTY(int targetMinute READ targetMinute WRITE setTargetMinute NOTIFY timeoutChanged)
 
     /* logical outputs */
-    /* URL of background image */
-    Q_PROPERTY(QString backgroundImage READ backgroundImage NOTIFY backgroundImageChanged)
+    /* name of background image */
+    Q_PROPERTY(QString backgroundImageFileName READ backgroundImageFileName NOTIFY backgroundImageChanged)
     /* Expand or Collapse, depending on window state */
     Q_PROPERTY(QString expandCollapseText READ expandCollapseText NOTIFY expandCollapseTextChanged)
     /* Either infoText or timeOutInfoText */
@@ -42,12 +42,13 @@ public:
     int targetMinute() const;
     QString backgroundImage() const;
     QString expandCollapseText() const;
+    void setExpandedState(bool expanded);
     QString displayText() const;
     QString timeoutTimeString() const;
     QString timerText() const;
     bool defaultBackgroundImage() const;
 
-    void setBackgroundImageFileName(const QString& string);
+    void setBackgroundImage(const QString& string);
     void setTargetHour(int newValue);
     void setTargetMinute(int newValue);
 
@@ -63,22 +64,26 @@ signals:
     void timerColorChanged();
     void backgroundImageChanged();
     void timeoutChanged();
+    void expandCollapse();
 
 protected:
     void timerEvent(QTimerEvent *event) override;
 
 private:
+    void setExpiryTime();
+    void updateExpired();
     QString m_titleText;
     QString m_infoText;
     QString m_timeOutInfoText;
-    QColor m_titleColor;
-    QColor m_infoColor;
-    QColor m_timerColor;
+    QColor m_titleColor{255,255,255};
+    QColor m_infoColor{255,255,255};
+    QColor m_timerColor{255,255,255};
     QString m_backgroundImageFile;
     int m_hour{0};
     int m_minute{0};
     QDateTime m_expiryTime;
-    bool m_expired = false;
+    bool m_expanded{false};
+    bool m_expired{false};
 };
 
 #endif // APPLOGIC_H
