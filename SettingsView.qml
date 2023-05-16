@@ -1,7 +1,8 @@
 import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
-import Qt.labs.platform
+import QtQuick.Dialogs as Dialogs
+import Qt.labs.platform as Labs
 
 Item {
     width: 800
@@ -20,7 +21,12 @@ Item {
             }
             Button {
                 text: _appLogic.defaultBackgroundImage ? qsTr("Select") : qsTr("Restore default")
-                onClicked: _imagePicker.open()
+                onClicked: {
+                    if (_appLogic.defaultBackgroundImage)
+                        _imagePicker.open()
+                    else
+                        _appLogic.backgroundImage = ""
+                }
             }
         }
         RowLayout {
@@ -97,10 +103,11 @@ Item {
             }
             Rectangle {
                 width: height
-                height: _infoField.implicitHeight
+                height: _timeColorButton.implicitHeight
                 color: _appLogic.timerColor
             }
             Button {
+                id: _timeColorButton
                 text: qsTr("Change color")
                 onClicked: _timerColorPicker.open()
             }
@@ -114,5 +121,22 @@ Item {
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
         }
+    }
+    Dialogs.FileDialog {
+        id: _imagePicker
+        nameFilters: [qsTr("Image files (*.jpg *.jpeg *.png *.gif *.bmp *.svg)"), qsTr("All files (*.*)")]
+        onAccepted: _appLogic.backgroundImage = selectedFile
+    }
+    Labs.ColorDialog {
+        id: _titleColorPicker
+        onColorChanged: _appLogic.titleColor = color
+    }
+    Labs.ColorDialog {
+        id: _infoColorPicker
+        onColorChanged: _appLogic.infoColor = color
+    }
+    Labs.ColorDialog {
+        id: _timerColorPicker
+        onColorChanged: _appLogic.timerColor = color
     }
 }

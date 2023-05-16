@@ -37,7 +37,7 @@ QString AppLogic::backgroundImage() const
 {
     if (m_backgroundImageFile.isEmpty())
     {
-        return "qrc:/background.png";
+        return "qrc:/qt/qml/Countdown/background.jpg";
     }
     else
     {

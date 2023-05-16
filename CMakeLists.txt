@@ -16,7 +16,8 @@ qt_add_qml_module(appcountdown
     URI Countdown
     VERSION 1.0
     RESOURCE_PREFIX /qt/qml
-    QML_FILES Main.qml SettingsView.qml SettingsPopup.qml
+    QML_FILES Empty.qml Main.qml SettingsView.qml SettingsPopup.qml
+    RESOURCES background.jpg
 )
 
 set_target_properties(appcountdown PROPERTIES

@@ -9,6 +9,7 @@ int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
     QUrl url{"qrc:/qt/qml/Countdown/Main.qml"};
+    QUrl emptyPageUrl{"qrc:/qt/qml/Countdown/Empty.qml"};
     QQuickView view;
     AppLogic logic;
     view.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
@@ -29,5 +30,8 @@ int main(int argc, char *argv[])
         }
     });
     QObject::connect(view.engine(), &QQmlEngine::quit, [&app](){app.quit();});
-    return app.exec();
+    int returnValue = app.exec();
+    /* Place empty page to prevent nullptr reads during teardown. */
+    view.setSource(emptyPageUrl);
+    return returnValue;
 }
