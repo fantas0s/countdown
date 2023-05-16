@@ -4,10 +4,19 @@
 #include <QQmlContext>
 #include <QQmlEngine>
 #include <QQuickView>
+#include <QTranslator>
 
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+    QTranslator translator;
+    if (!translator.load(QLocale("fi_FI"), QString("translations"), QLatin1String("_"), QLatin1String(":/qt/qml/Countdown/"))) {
+        qWarning() << "No translation for locale" << QLocale() << "using en_US instead";
+        if(!translator.load(QStringLiteral(":/qt/qml/Countdown/translations_en_US.qm")))
+            qWarning() << "Failed to load any translation!";
+    }
+    QCoreApplication::installTranslator(&translator);
+
     QUrl url{"qrc:/qt/qml/Countdown/Main.qml"};
     QUrl emptyPageUrl{"qrc:/qt/qml/Countdown/Empty.qml"};
     QQuickView view;

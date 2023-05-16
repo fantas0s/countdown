@@ -4,10 +4,76 @@ import QtQuick.Controls
 Rectangle {
     id: _root
     color: "black"
+    property int logoUnlock: 0
+    focus: true
+    Keys.onPressed: (event) => {
+        switch (logoUnlock)
+        {
+        case 0:
+            {
+                if (event.key === Qt.Key_L &&
+                    event.modifiers === Qt.ControlModifier)
+                {
+                    logoUnlock++
+                }
+            }
+            break;
+        case 1:
+            {
+                if (event.key === Qt.Key_O &&
+                    event.modifiers === Qt.ControlModifier)
+                {
+                    logoUnlock++
+                }
+                else
+                {
+                    logoUnlock = 0
+                }
+            }
+            break;
+        case 2:
+            {
+                if (event.key === Qt.Key_G &&
+                    event.modifiers === Qt.ControlModifier)
+                {
+                    logoUnlock++
+                }
+                else
+                {
+                    logoUnlock = 0
+                }
+            }
+            break;
+        case 3:
+            {
+                if (event.key === Qt.Key_O &&
+                    event.modifiers === Qt.ControlModifier)
+                {
+                    _lohetLogo.visible = !_lohetLogo.visible
+                }
+                logoUnlock = 0
+            }
+            break;
+        default:
+            logoUnlock = 0
+            break;
+        }
+    }
+
     Image {
         source: _appLogic.backgroundImage
         fillMode: Image.PreserveAspectCrop
         anchors.fill: parent
+        Image {
+            id: _lohetLogo
+            width: Math.min(parent.width / 5, 300)
+            height: Math.min(parent.height / 5, 300)
+            fillMode: Image.PreserveAspectFit
+            anchors.left: parent.left
+            anchors.top: parent.top
+            source: "qrc:/qt/qml/Countdown/logo.png"
+        }
+
         Label {
             id: _titleText
             anchors.horizontalCenter: parent.horizontalCenter

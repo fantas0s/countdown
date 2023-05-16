@@ -23,6 +23,18 @@ QString AppLogic::backgroundImageFileName() const
     }
 }
 
+QString AppLogic::timeoutBackgroundImageFileName() const
+{
+    if (m_timeoutBackgroundImageFile.isEmpty())
+    {
+        return tr("Default timeout background");
+    }
+    else
+    {
+        return QUrl(m_timeoutBackgroundImageFile).fileName();
+    }
+}
+
 int AppLogic::targetHour() const
 {
     return m_hour;
@@ -35,13 +47,32 @@ int AppLogic::targetMinute() const
 
 QString AppLogic::backgroundImage() const
 {
-    if (m_backgroundImageFile.isEmpty())
+    if (m_expired)
     {
-        return "qrc:/qt/qml/Countdown/background.jpg";
+        return timeoutBackgroundImage();
     }
     else
     {
-        return m_backgroundImageFile;
+        if (m_backgroundImageFile.isEmpty())
+        {
+            return "qrc:/qt/qml/Countdown/background.jpg";
+        }
+        else
+        {
+            return m_backgroundImageFile;
+        }
+    }
+}
+
+QString AppLogic::timeoutBackgroundImage() const
+{
+    if (m_timeoutBackgroundImageFile.isEmpty())
+    {
+        return "qrc:/qt/qml/Countdown/timeoutbackground.jpg";
+    }
+    else
+    {
+        return m_timeoutBackgroundImageFile;
     }
 }
 
@@ -79,12 +110,13 @@ QString AppLogic::displayText() const
 }
 
 QString AppLogic::timeoutTimeString() const
-{
-    return m_expiryTime.toString(tr("hh:mm dd.MM.yyyy"));
+{return m_expiryTime.toString(tr("hh:mm dd.MM.yyyy"));
 }
 
 QString AppLogic::timerText() const
 {
+    if (m_expired)
+        return "";
     const auto currentTime = QDateTime::currentDateTime();
     qint64 seconds;
     if (m_expiryTime > currentTime)
@@ -107,10 +139,27 @@ bool AppLogic::defaultBackgroundImage() const
     return m_backgroundImageFile.isEmpty();
 }
 
+bool AppLogic::defaultTimeoutBackgroundImage() const
+{
+    return m_timeoutBackgroundImageFile.isEmpty();
+}
+
 void AppLogic::setBackgroundImage(const QString &string)
 {
-    m_backgroundImageFile = string;
-    emit backgroundImageChanged();
+    if (m_backgroundImageFile != string)
+    {
+        m_backgroundImageFile = string;
+        emit backgroundImageChanged();
+    }
+}
+
+void AppLogic::setTimeoutBackgroundImage(const QString &string)
+{
+    if (m_timeoutBackgroundImageFile != string)
+    {
+        m_timeoutBackgroundImageFile = string;
+        emit backgroundImageChanged();
+    }
 }
 
 void AppLogic::setTargetHour(int newValue)
@@ -165,5 +214,7 @@ void AppLogic::updateExpired()
     {
         m_expired = !stillRunning;
         emit displayTextChanged();
+        emit backgroundImageChanged();
+        emit timerTextChanged();
     }
 }

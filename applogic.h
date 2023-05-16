@@ -19,12 +19,14 @@ class AppLogic : public QObject
 
     /* setter-enabled values */
     Q_PROPERTY(QString backgroundImage READ backgroundImage WRITE setBackgroundImage NOTIFY backgroundImageChanged)
+    Q_PROPERTY(QString timeoutBackgroundImage READ timeoutBackgroundImage WRITE setTimeoutBackgroundImage NOTIFY backgroundImageChanged)
     Q_PROPERTY(int targetHour READ targetHour WRITE setTargetHour NOTIFY timeoutChanged)
     Q_PROPERTY(int targetMinute READ targetMinute WRITE setTargetMinute NOTIFY timeoutChanged)
 
     /* logical outputs */
     /* name of background image */
     Q_PROPERTY(QString backgroundImageFileName READ backgroundImageFileName NOTIFY backgroundImageChanged)
+    Q_PROPERTY(QString timeoutBackgroundImageFileName READ timeoutBackgroundImageFileName NOTIFY backgroundImageChanged)
     /* Expand or Collapse, depending on window state */
     Q_PROPERTY(QString expandCollapseText READ expandCollapseText NOTIFY expandCollapseTextChanged)
     /* Either infoText or timeOutInfoText */
@@ -35,20 +37,25 @@ class AppLogic : public QObject
     Q_PROPERTY(QString timerText READ timerText NOTIFY timerTextChanged)
     /* True or false, depending if image file has been selected */
     Q_PROPERTY(bool defaultBackgroundImage READ defaultBackgroundImage NOTIFY backgroundImageChanged)
+    Q_PROPERTY(bool defaultTimeoutBackgroundImage READ defaultTimeoutBackgroundImage NOTIFY backgroundImageChanged)
 public:
     explicit AppLogic(QObject *parent = nullptr);
     QString backgroundImageFileName() const;
+    QString timeoutBackgroundImageFileName() const;
     int targetHour() const;
     int targetMinute() const;
     QString backgroundImage() const;
+    QString timeoutBackgroundImage() const;
     QString expandCollapseText() const;
     void setExpandedState(bool expanded);
     QString displayText() const;
     QString timeoutTimeString() const;
     QString timerText() const;
     bool defaultBackgroundImage() const;
+    bool defaultTimeoutBackgroundImage() const;
 
     void setBackgroundImage(const QString& string);
+    void setTimeoutBackgroundImage(const QString& string);
     void setTargetHour(int newValue);
     void setTargetMinute(int newValue);
 
@@ -73,12 +80,13 @@ private:
     void setExpiryTime();
     void updateExpired();
     QString m_titleText;
-    QString m_infoText;
-    QString m_timeOutInfoText;
+    QString m_infoText = tr("Warm-up time remaining:");
+    QString m_timeOutInfoText = tr("Warm-up time is over!");
     QColor m_titleColor{255,255,255};
     QColor m_infoColor{255,255,255};
     QColor m_timerColor{255,255,255};
     QString m_backgroundImageFile;
+    QString m_timeoutBackgroundImageFile;
     int m_hour{0};
     int m_minute{0};
     QDateTime m_expiryTime;

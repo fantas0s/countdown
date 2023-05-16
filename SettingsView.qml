@@ -32,6 +32,26 @@ Item {
         RowLayout {
             Layout.fillWidth: true
             Label {
+                text: qsTr("Timeout background image")
+            }
+            TextField {
+                text: _appLogic.timeoutBackgroundImageFileName
+                enabled: false
+                Layout.fillWidth: true
+            }
+            Button {
+                text: _appLogic.defaultTimeoutBackgroundImage ? qsTr("Select") : qsTr("Restore default")
+                onClicked: {
+                    if (_appLogic.defaultTimeoutBackgroundImage)
+                        _timeoutImagePicker.open()
+                    else
+                        _appLogic.timeoutBackgroundImage = ""
+                }
+            }
+        }
+        RowLayout {
+            Layout.fillWidth: true
+            Label {
                 text: qsTr("Title text")
             }
             TextField {
@@ -126,6 +146,11 @@ Item {
         id: _imagePicker
         nameFilters: [qsTr("Image files (*.jpg *.jpeg *.png *.gif *.bmp *.svg)"), qsTr("All files (*.*)")]
         onAccepted: _appLogic.backgroundImage = selectedFile
+    }
+    Dialogs.FileDialog {
+        id: _timeoutImagePicker
+        nameFilters: [qsTr("Image files (*.jpg *.jpeg *.png *.gif *.bmp *.svg)"), qsTr("All files (*.*)")]
+        onAccepted: _appLogic.timeoutBackgroundImage = selectedFile
     }
     Labs.ColorDialog {
         id: _titleColorPicker
