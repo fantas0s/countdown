@@ -21,7 +21,8 @@ qt_add_qml_module(appcountdown
 )
 
 qt_add_lupdate(appcountdown TS_FILES translations_en_US.ts translations_fi_FI.ts)
-qt_add_lrelease(appcountdown TS_FILES translations_en_US.ts translations_fi_FI.ts)
+qt_add_lrelease(appcountdown TS_FILES translations_en_US.ts translations_fi_FI.ts
+ OPTIONS -idbased)
 
 set_target_properties(appcountdown PROPERTIES
     MACOSX_BUNDLE_GUI_IDENTIFIER my.example.com

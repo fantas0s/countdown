@@ -15,7 +15,7 @@ QString AppLogic::backgroundImageFileName() const
 {
     if (m_backgroundImageFile.isEmpty())
     {
-        return tr("Default background");
+        return qtTrId("textfield_default_background_before_timeout");
     }
     else
     {
@@ -27,7 +27,7 @@ QString AppLogic::timeoutBackgroundImageFileName() const
 {
     if (m_timeoutBackgroundImageFile.isEmpty())
     {
-        return tr("Default timeout background");
+        return qtTrId("textfield_default_background_after_timeout");
     }
     else
     {
@@ -80,11 +80,11 @@ QString AppLogic::expandCollapseText() const
 {
     if (m_expanded)
     {
-        return tr("To window");
+        return qtTrId("button_to_window");
     }
     else
     {
-        return tr("To fullscreen");
+        return qtTrId("button_to_fullscreen");
     }
 }
 
@@ -110,7 +110,7 @@ QString AppLogic::displayText() const
 }
 
 QString AppLogic::timeoutTimeString() const
-{return m_expiryTime.toString(tr("hh:mm dd.MM.yyyy"));
+{return m_expiryTime.toString(qtTrId("textfield_expiry_datetime_format"));
 }
 
 QString AppLogic::timerText() const
@@ -131,7 +131,7 @@ QString AppLogic::timerText() const
     qint64 hours = minutes / 60;
     seconds -= minutes * 60;
     minutes -= hours * 60;
-    return tr("%1:%2:%3").arg(hours, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
+    return qtTrId("label_timer_3parameter_time").arg(hours, 2, 10, QChar('0')).arg(minutes, 2, 10, QChar('0')).arg(seconds, 2, 10, QChar('0'));
 }
 
 bool AppLogic::defaultBackgroundImage() const

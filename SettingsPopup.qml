@@ -1,7 +1,7 @@
 import QtQuick.Controls
 
 Dialog {
-    title: qsTr("Settings")
+    title: qsTrId("title_settings")
     modal: true
     contentItem: SettingsView {}
     standardButtons: Dialog.Save

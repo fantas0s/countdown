@@ -101,7 +101,7 @@ Rectangle {
         }
         Button {
             id: _closeButton
-            text: qsTr("Close")
+            text: qsTrId("button_close")
             anchors.right: parent.right
             anchors.top: parent.top
             opacity: _buttonTimer.buttonsVisible ? 1.0 : 0.0
@@ -119,7 +119,7 @@ Rectangle {
         }
         Button {
             id: _settingsButton
-            text: qsTr("Settings")
+            text: qsTrId("button_settings")
             anchors.right: _collapseButton.left
             anchors.top: parent.top
             opacity: _buttonTimer.buttonsVisible ? 1.0 : 0.0

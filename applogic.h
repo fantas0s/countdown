@@ -80,8 +80,8 @@ private:
     void setExpiryTime();
     void updateExpired();
     QString m_titleText;
-    QString m_infoText = tr("Warm-up time remaining:");
-    QString m_timeOutInfoText = tr("Warm-up time is over!");
+    QString m_infoText = qtTrId("label_info_before_timeout");
+    QString m_timeOutInfoText = qtTrId("label_info_after_timeout");
     QColor m_titleColor{255,255,255};
     QColor m_infoColor{255,255,255};
     QColor m_timerColor{255,255,255};

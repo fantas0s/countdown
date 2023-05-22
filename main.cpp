@@ -25,6 +25,7 @@ int main(int argc, char *argv[])
     view.setMinimumSize(QSize{900, 700});
     view.rootContext()->setContextProperty("_appLogic", &logic);
     view.setSource(url);
+    view.setTitle(qtTrId("title_main_window"));
     view.show();
     QObject::connect(&logic, &AppLogic::expandCollapse, &view, [&view, &logic](){
         if (view.visibility() == QWindow::Maximized || view.visibility() == QWindow::FullScreen)

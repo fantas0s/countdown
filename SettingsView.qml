@@ -12,7 +12,7 @@ Item {
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: qsTr("Background image")
+                text: qsTrId("label_textfield_title_background_image_before_timeout")
             }
             TextField {
                 text: _appLogic.backgroundImageFileName
@@ -20,7 +20,7 @@ Item {
                 Layout.fillWidth: true
             }
             Button {
-                text: _appLogic.defaultBackgroundImage ? qsTr("Select") : qsTr("Restore default")
+                text: _appLogic.defaultBackgroundImage ? qsTrId("button_select_file") : qsTrId("button_restore_default_file")
                 onClicked: {
                     if (_appLogic.defaultBackgroundImage)
                         _imagePicker.open()
@@ -32,7 +32,7 @@ Item {
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: qsTr("Timeout background image")
+                text: qsTrId("label_textfield_title_background_image_after_timeout")
             }
             TextField {
                 text: _appLogic.timeoutBackgroundImageFileName
@@ -40,7 +40,7 @@ Item {
                 Layout.fillWidth: true
             }
             Button {
-                text: _appLogic.defaultTimeoutBackgroundImage ? qsTr("Select") : qsTr("Restore default")
+                text: _appLogic.defaultTimeoutBackgroundImage ? qsTrId("button_select_file") : qsTrId("button_restore_default_file")
                 onClicked: {
                     if (_appLogic.defaultTimeoutBackgroundImage)
                         _timeoutImagePicker.open()
@@ -52,7 +52,7 @@ Item {
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: qsTr("Title text")
+                text: qsTrId("label_textfield_title_view_title")
             }
             TextField {
                 id: _titleField
@@ -65,14 +65,14 @@ Item {
                 color: _appLogic.titleColor
             }
             Button {
-                text: qsTr("Change color")
+                text: qsTrId("button_change_color")
                 onClicked: _titleColorPicker.open()
             }
         }
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: qsTr("Info text")
+                text: qsTrId("label_textfield_title_info_before_timeout")
             }
             TextField {
                 id: _infoField
@@ -85,14 +85,14 @@ Item {
                 color: _appLogic.infoColor
             }
             Button {
-                text: qsTr("Change color")
+                text: qsTrId("button_change_color")
                 onClicked: _infoColorPicker.open()
             }
         }
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: qsTr("Info text after timeout")
+                text: qsTrId("label_textfield_title_info_after_timeout")
             }
             TextField {
                 Layout.fillWidth: true
@@ -102,7 +102,7 @@ Item {
         RowLayout {
             Layout.fillWidth: true
             Label {
-                text: qsTr("Timer end time")
+                text: qsTrId("label_textfield_title_timeout_datetime")
             }
             TextField {
                 Layout.fillWidth: true
@@ -128,7 +128,7 @@ Item {
             }
             Button {
                 id: _timeColorButton
-                text: qsTr("Change color")
+                text: qsTrId("button_change_color")
                 onClicked: _timerColorPicker.open()
             }
         }
@@ -144,12 +144,12 @@ Item {
     }
     Dialogs.FileDialog {
         id: _imagePicker
-        nameFilters: [qsTr("Image files (*.jpg *.jpeg *.png *.gif *.bmp *.svg)"), qsTr("All files (*.*)")]
+        nameFilters: [qsTrId("filefilter_option_image_files"), qsTrId("filefilter_option_all_files")]
         onAccepted: _appLogic.backgroundImage = selectedFile
     }
     Dialogs.FileDialog {
         id: _timeoutImagePicker
-        nameFilters: [qsTr("Image files (*.jpg *.jpeg *.png *.gif *.bmp *.svg)"), qsTr("All files (*.*)")]
+        nameFilters: [qsTrId("filefilter_option_image_files"), qsTrId("filefilter_option_all_files")]
         onAccepted: _appLogic.timeoutBackgroundImage = selectedFile
     }
     Labs.ColorDialog {
