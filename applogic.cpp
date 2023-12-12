@@ -1,6 +1,7 @@
 #include "applogic.h"
 
 #include <QUrl>
+#include <QRandomGenerator>
 
 AppLogic::AppLogic(QObject *parent)
     : QObject{parent}
@@ -9,6 +10,8 @@ AppLogic::AppLogic(QObject *parent)
     connect(this, &AppLogic::timeOutInfoTextChanged, this, &AppLogic::displayTextChanged);
     startTimer(1000, Qt::TimerType::VeryCoarseTimer);
     setExpiryTime(); /* Use current 00:00 */
+    connect(&m_offsetTimer, &QTimer::timeout, this, &AppLogic::updateOffset);
+    m_offsetTimer.start(std::chrono::seconds(60));
 }
 
 QString AppLogic::backgroundImageFileName() const
@@ -43,6 +46,16 @@ int AppLogic::targetHour() const
 int AppLogic::targetMinute() const
 {
     return m_minute;
+}
+
+int AppLogic::windowHeight() const
+{
+    return m_windowHeight;
+}
+
+int AppLogic::windowWidth() const
+{
+    return m_windowWidth;
 }
 
 QString AppLogic::backgroundImage() const
@@ -110,7 +123,8 @@ QString AppLogic::displayText() const
 }
 
 QString AppLogic::timeoutTimeString() const
-{return m_expiryTime.toString(qtTrId("textfield_expiry_datetime_format"));
+{
+    return m_expiryTime.toString(qtTrId("textfield_expiry_datetime_format"));
 }
 
 QString AppLogic::timerText() const
@@ -144,6 +158,21 @@ bool AppLogic::defaultTimeoutBackgroundImage() const
     return m_timeoutBackgroundImageFile.isEmpty();
 }
 
+int AppLogic::margin() const
+{
+    return m_margin;
+}
+
+int AppLogic::offsetX() const
+{
+    return m_offsetX;
+}
+
+int AppLogic::offsetY() const
+{
+    return m_offsetY;
+}
+
 void AppLogic::setBackgroundImage(const QString &string)
 {
     if (m_backgroundImageFile != string)
@@ -164,6 +193,10 @@ void AppLogic::setTimeoutBackgroundImage(const QString &string)
 
 void AppLogic::setTargetHour(int newValue)
 {
+    if (newValue > 23)
+        newValue = 23;
+    else if (newValue < 0)
+        newValue = 0;
     if (m_hour != newValue)
     {
         m_hour = newValue;
@@ -173,10 +206,34 @@ void AppLogic::setTargetHour(int newValue)
 
 void AppLogic::setTargetMinute(int newValue)
 {
+    if (newValue > 59)
+        newValue = 59;
+    else if (newValue < 0)
+        newValue = 0;
     if (m_minute != newValue)
     {
         m_minute = newValue;
         setExpiryTime();
+    }
+}
+
+void AppLogic::setWindowHeight(int newValue)
+{
+    if (m_windowHeight != newValue)
+    {
+        m_windowHeight = newValue;
+        emit windowHeightChanged();
+        refreshMargin();
+    }
+}
+
+void AppLogic::setWindowWidth(int newValue)
+{
+    if (m_windowWidth != newValue)
+    {
+        m_windowWidth = newValue;
+        emit windowWidthChanged();
+        refreshMargin();
     }
 }
 
@@ -187,6 +244,15 @@ void AppLogic::timerEvent(QTimerEvent *event)
         emit timerTextChanged();
         updateExpired();
     }
+}
+
+void AppLogic::updateOffset()
+{
+    const int newOffsetX = QRandomGenerator::global()->bounded(m_margin);
+    const int newOffsetY = QRandomGenerator::global()->bounded(m_margin);
+    m_offsetX = -1 * newOffsetX;
+    m_offsetY = -1 * newOffsetY;
+    emit offsetsChanged();
 }
 
 void AppLogic::setExpiryTime()
@@ -216,5 +282,18 @@ void AppLogic::updateExpired()
         emit displayTextChanged();
         emit backgroundImageChanged();
         emit timerTextChanged();
+    }
+}
+
+void AppLogic::refreshMargin()
+{
+    qreal newMargin = qMin(m_windowHeight, m_windowWidth);
+    newMargin = newMargin / 40;
+    int intMargin = qFloor(newMargin);
+    if (m_margin != intMargin)
+    {
+        m_margin = intMargin;
+        emit marginChanged();
+        updateOffset();
     }
 }

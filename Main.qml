@@ -7,6 +7,12 @@ Rectangle {
     signal openSettings
     property int logoUnlock: 0
     focus: true
+    onWidthChanged: _appLogic.windowWidth = width
+    onHeightChanged: _appLogic.windowHeight = height
+    Component.onCompleted: {
+        _appLogic.windowWidth = width
+        _appLogic.windowHeight = height
+    }
     Keys.onPressed: (event) => {
         switch (logoUnlock)
         {
@@ -64,7 +70,10 @@ Rectangle {
     Image {
         source: _appLogic.backgroundImage
         fillMode: Image.PreserveAspectCrop
-        anchors.fill: parent
+        width: parent.width + _appLogic.margin
+        height: parent.height + _appLogic.margin
+        x: _appLogic.offsetX
+        y: _appLogic.offsetY
         Image {
             id: _lohetLogo
             width: Math.min(parent.width / 5, 300)
@@ -100,33 +109,33 @@ Rectangle {
             color: _appLogic.timerColor
             text: _appLogic.timerText
         }
-        Button {
-            id: _closeButton
-            text: qsTrId("button_close")
-            anchors.right: parent.right
-            anchors.top: parent.top
-            opacity: _buttonTimer.buttonsVisible ? 1.0 : 0.0
-            hoverEnabled: true
-            onClicked: Qt.quit()
-        }
-        Button {
-            id: _collapseButton
-            text: _appLogic.expandCollapseText
-            anchors.right: _closeButton.left
-            anchors.top: parent.top
-            opacity: _buttonTimer.buttonsVisible ? 1.0 : 0.0
-            hoverEnabled: true
-            onClicked: _appLogic.expandCollapse()
-        }
-        Button {
-            id: _settingsButton
-            text: qsTrId("button_settings")
-            anchors.right: _collapseButton.left
-            anchors.top: parent.top
-            opacity: _buttonTimer.buttonsVisible ? 1.0 : 0.0
-            hoverEnabled: true
-            onClicked: _root.openSettings()
-        }
+    }
+    Button {
+        id: _closeButton
+        text: qsTrId("button_close")
+        anchors.right: parent.right
+        anchors.top: parent.top
+        opacity: _buttonTimer.buttonsVisible ? 1.0 : 0.0
+        hoverEnabled: true
+        onClicked: Qt.quit()
+    }
+    Button {
+        id: _collapseButton
+        text: _appLogic.expandCollapseText
+        anchors.right: _closeButton.left
+        anchors.top: parent.top
+        opacity: _buttonTimer.buttonsVisible ? 1.0 : 0.0
+        hoverEnabled: true
+        onClicked: _appLogic.expandCollapse()
+    }
+    Button {
+        id: _settingsButton
+        text: qsTrId("button_settings")
+        anchors.right: _collapseButton.left
+        anchors.top: parent.top
+        opacity: _buttonTimer.buttonsVisible ? 1.0 : 0.0
+        hoverEnabled: true
+        onClicked: _root.openSettings()
     }
     Timer {
         id: _buttonTimer

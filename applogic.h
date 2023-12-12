@@ -5,6 +5,7 @@
 #include <QDateTime>
 #include <QObject>
 #include <QString>
+#include <QTimer>
 
 class AppLogic : public QObject
 {
@@ -22,6 +23,8 @@ class AppLogic : public QObject
     Q_PROPERTY(QString timeoutBackgroundImage READ timeoutBackgroundImage WRITE setTimeoutBackgroundImage NOTIFY backgroundImageChanged)
     Q_PROPERTY(int targetHour READ targetHour WRITE setTargetHour NOTIFY timeoutChanged)
     Q_PROPERTY(int targetMinute READ targetMinute WRITE setTargetMinute NOTIFY timeoutChanged)
+    Q_PROPERTY(int windowHeight READ windowHeight WRITE setWindowHeight NOTIFY windowHeightChanged)
+    Q_PROPERTY(int windowWidth READ windowWidth WRITE setWindowWidth NOTIFY windowWidthChanged)
 
     /* logical outputs */
     /* name of background image */
@@ -38,12 +41,19 @@ class AppLogic : public QObject
     /* True or false, depending if image file has been selected */
     Q_PROPERTY(bool defaultBackgroundImage READ defaultBackgroundImage NOTIFY backgroundImageChanged)
     Q_PROPERTY(bool defaultTimeoutBackgroundImage READ defaultTimeoutBackgroundImage NOTIFY backgroundImageChanged)
+    /* random offset to prevent screen burn */
+    Q_PROPERTY(int margin READ margin NOTIFY marginChanged)
+    Q_PROPERTY(int offsetX READ offsetX NOTIFY offsetsChanged)
+    Q_PROPERTY(int offsetY READ offsetY NOTIFY offsetsChanged)
+
 public:
     explicit AppLogic(QObject *parent = nullptr);
     QString backgroundImageFileName() const;
     QString timeoutBackgroundImageFileName() const;
     int targetHour() const;
     int targetMinute() const;
+    int windowHeight() const;
+    int windowWidth() const;
     QString backgroundImage() const;
     QString timeoutBackgroundImage() const;
     QString expandCollapseText() const;
@@ -53,11 +63,16 @@ public:
     QString timerText() const;
     bool defaultBackgroundImage() const;
     bool defaultTimeoutBackgroundImage() const;
+    int margin() const;
+    int offsetX() const;
+    int offsetY() const;
 
     void setBackgroundImage(const QString& string);
     void setTimeoutBackgroundImage(const QString& string);
     void setTargetHour(int newValue);
     void setTargetMinute(int newValue);
+    void setWindowHeight(int newValue);
+    void setWindowWidth(int newValue);
 
 signals:
     void titleTextChanged();
@@ -71,14 +86,23 @@ signals:
     void timerColorChanged();
     void backgroundImageChanged();
     void timeoutChanged();
+    void windowHeightChanged();
+    void windowWidthChanged();
     void expandCollapse();
+    void marginChanged();
+    void offsetsChanged();
 
 protected:
     void timerEvent(QTimerEvent *event) override;
 
+private slots:
+    void updateOffset();
+
 private:
     void setExpiryTime();
     void updateExpired();
+    void refreshMargin();
+    QTimer m_offsetTimer;
     QString m_titleText;
     QString m_infoText = qtTrId("label_info_before_timeout");
     QString m_timeOutInfoText = qtTrId("label_info_after_timeout");
@@ -89,6 +113,11 @@ private:
     QString m_timeoutBackgroundImageFile;
     int m_hour{0};
     int m_minute{0};
+    int m_windowWidth{0};
+    int m_windowHeight{0};
+    int m_margin{0};
+    int m_offsetX{0};
+    int m_offsetY{0};
     QDateTime m_expiryTime;
     bool m_expanded{false};
     bool m_expired{false};

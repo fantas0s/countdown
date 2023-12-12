@@ -63,6 +63,8 @@ Item {
                 width: height
                 height: _titleField.implicitHeight
                 color: _appLogic.titleColor
+                border.width: 1
+                border.color: "black"
             }
             Button {
                 text: qsTrId("button_change_color")
@@ -83,6 +85,8 @@ Item {
                 width: height
                 height: _infoField.implicitHeight
                 color: _appLogic.infoColor
+                border.width: 1
+                border.color: "black"
             }
             Button {
                 text: qsTrId("button_change_color")
@@ -109,37 +113,31 @@ Item {
                 text: _appLogic.timeoutTimeString
                 enabled: false
             }
-            Tumbler {
-                implicitHeight: 100
-                model: 24
-                delegate: delegateComponent
-                onCurrentIndexChanged: _appLogic.targetHour = currentIndex
+            TextField {
+                implicitWidth: 1.5 * implicitHeight
+                maximumLength: 2
+                onTextChanged: _appLogic.targetHour = Number(text)
             }
-            Tumbler {
-                implicitHeight: 100
-                model: 60
-                delegate: delegateComponent
-                onCurrentIndexChanged: _appLogic.targetMinute = currentIndex
+            Label {
+                text: qsTrId("separator_hour")
+            }
+            TextField {
+                implicitWidth: 1.5 * implicitHeight
+                maximumLength: 2
+                onTextChanged: _appLogic.targetMinute = Number(text)
             }
             Rectangle {
                 width: height
                 height: _timeColorButton.implicitHeight
                 color: _appLogic.timerColor
+                border.width: 1
+                border.color: "black"
             }
             Button {
                 id: _timeColorButton
                 text: qsTrId("button_change_color")
                 onClicked: _timerColorPicker.open()
             }
-        }
-    }
-    Component {
-        id: delegateComponent
-        Label {
-            text: modelData
-            opacity: 1.0 - Math.abs(Tumbler.displacement) / (Tumbler.tumbler.visibleItemCount / 2)
-            horizontalAlignment: Text.AlignHCenter
-            verticalAlignment: Text.AlignVCenter
         }
     }
     Dialogs.FileDialog {

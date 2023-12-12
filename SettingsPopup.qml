@@ -2,8 +2,9 @@ import QtQuick
 import QtQuick.Controls
 import QtQuick.Layouts
 
-Item {
+Rectangle {
     id: _settingsRoot
+    color: "lightgrey"
     signal close
     ColumnLayout {
         anchors.fill: parent
