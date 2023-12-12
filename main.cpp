@@ -3,6 +3,7 @@
 #include <QApplication>
 #include <QQmlContext>
 #include <QQmlEngine>
+#include <QQuickItem>
 #include <QQuickView>
 #include <QTranslator>
 
@@ -18,7 +19,6 @@ int main(int argc, char *argv[])
     QCoreApplication::installTranslator(&translator);
 
     QUrl url{"qrc:/qt/qml/Countdown/Main.qml"};
-    QUrl emptyPageUrl{"qrc:/qt/qml/Countdown/Empty.qml"};
     QQuickView view;
     AppLogic logic;
     view.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
@@ -39,9 +39,21 @@ int main(int argc, char *argv[])
             logic.setExpandedState(true);
         }
     });
-    QObject::connect(view.engine(), &QQmlEngine::quit, [&app](){app.quit();});
+    QObject::connect(view.engine(), &QQmlEngine::quit, view.engine(), [&app](){app.quit();});
+
+    /* Settings window */
+    QUrl settingsUrl{"qrc:/qt/qml/Countdown/SettingsPopup.qml"};
+    QQuickView settingsView;
+    settingsView.setResizeMode(QQuickView::ResizeMode::SizeRootObjectToView);
+    settingsView.setMinimumSize(QSize{450, 350});
+    settingsView.rootContext()->setContextProperty("_appLogic", &logic);
+    settingsView.setSource(settingsUrl);
+    settingsView.setTitle(qtTrId("title_settings"));
+    QObject::connect(view.rootObject(), SIGNAL(openSettings()), &settingsView, SLOT(show()));
+    QObject::connect(settingsView.rootObject(), SIGNAL(close()), &settingsView, SLOT(hide()));
     int returnValue = app.exec();
     /* Place empty page to prevent nullptr reads during teardown. */
+    QUrl emptyPageUrl{"qrc:/qt/qml/Countdown/Empty.qml"};
     view.setSource(emptyPageUrl);
     return returnValue;
 }

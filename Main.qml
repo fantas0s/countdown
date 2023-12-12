@@ -4,6 +4,7 @@ import QtQuick.Controls
 Rectangle {
     id: _root
     color: "black"
+    signal openSettings
     property int logoUnlock: 0
     focus: true
     Keys.onPressed: (event) => {
@@ -124,7 +125,7 @@ Rectangle {
             anchors.top: parent.top
             opacity: _buttonTimer.buttonsVisible ? 1.0 : 0.0
             hoverEnabled: true
-            onClicked: _settingsDialog.open()
+            onClicked: _root.openSettings()
         }
     }
     Timer {
@@ -145,10 +146,5 @@ Rectangle {
         repeat: false
         interval: 2000
         onTriggered: buttonsVisible = false
-    }
-    SettingsPopup {
-        id: _settingsDialog
-        x: _root.width / 2 - (_settingsDialog.width / 2)
-        y: _root.height / 2 - (_settingsDialog.height / 2)
     }
 }

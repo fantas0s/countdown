@@ -4,12 +4,12 @@
 <context>
     <name></name>
     <message id="button_close">
-        <location filename="Main.qml" line="104"/>
+        <location filename="Main.qml" line="105"/>
         <source></source>
         <translation>Close</translation>
     </message>
     <message id="button_settings">
-        <location filename="Main.qml" line="122"/>
+        <location filename="Main.qml" line="123"/>
         <source></source>
         <translation>Settings</translation>
     </message>
@@ -75,7 +75,7 @@
         <translation>All files (*.*)</translation>
     </message>
     <message id="title_settings">
-        <location filename="SettingsPopup.qml" line="4"/>
+        <location filename="main.cpp" line="51"/>
         <source></source>
         <translation>Settings</translation>
     </message>
@@ -123,6 +123,11 @@
         <location filename="applogic.cpp" line="134"/>
         <source></source>
         <translation>%1:%2:%3</translation>
+    </message>
+    <message id="button_save">
+        <location filename="SettingsPopup.qml" line="17"/>
+        <source></source>
+        <translation>Save</translation>
     </message>
 </context>
 </TS>

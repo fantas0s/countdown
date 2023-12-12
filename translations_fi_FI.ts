@@ -4,12 +4,12 @@
 <context>
     <name></name>
     <message id="button_close">
-        <location filename="Main.qml" line="104"/>
+        <location filename="Main.qml" line="105"/>
         <source></source>
         <translation>Sulje</translation>
     </message>
     <message id="button_settings">
-        <location filename="Main.qml" line="122"/>
+        <location filename="Main.qml" line="123"/>
         <source></source>
         <translation>Asetukset</translation>
     </message>
@@ -75,7 +75,7 @@
         <translation>Kaikki tiedostot (*.*)</translation>
     </message>
     <message id="title_settings">
-        <location filename="SettingsPopup.qml" line="4"/>
+        <location filename="main.cpp" line="51"/>
         <source></source>
         <translation>Asetukset</translation>
     </message>
@@ -92,7 +92,7 @@
     <message id="label_info_after_timeout">
         <location filename="applogic.h" line="84"/>
         <source></source>
-        <translation>Verryttelyaika päättynyt!</translation>
+        <translation type="unfinished">Verryttelyaika päättynyt!</translation>
     </message>
     <message id="textfield_default_background_before_timeout">
         <location filename="applogic.cpp" line="18"/>
@@ -123,6 +123,11 @@
         <location filename="applogic.cpp" line="134"/>
         <source></source>
         <translation>%1:%2:%3</translation>
+    </message>
+    <message id="button_save">
+        <location filename="SettingsPopup.qml" line="17"/>
+        <source></source>
+        <translation>Tallenna</translation>
     </message>
 </context>
 </TS>
